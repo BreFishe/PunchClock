@@ -12,11 +12,11 @@ class DataBase:
 
     def add_user(self, name):
         if name.strip() not in self.punches:
-            self.punches[name.strip()] = DataBase.get_date()
+            self.punches[name.strip()] = DataBase.get_date()+"#"
             self.save()
+            self.load()
             return 1
         else:
-            print("User Already in DataBase")
             return -1
 
     def get_user(self,name):
@@ -31,13 +31,12 @@ class DataBase:
             print(DataBase.get_date())
             print(self.punches[name.strip()])
             print(len(self.punches[name.strip()]))
-            #Method that saves only the last 60 punches or the last month
+            #Method that saves only the last 60 punches or the last two months
             if(len(self.punches[name.strip()]) >59):
                 self.punches[name.strip()].pop(0)
             self.save()
             return 1
         else:
-            print("User not in DataBase")
             return -1
 
     def load(self):
@@ -50,10 +49,9 @@ class DataBase:
             tempList = time.split("#")
             for item in tempList:
                 if item != "":
-                    print("Here " + str(item))
                     self.punches[name].append(item+"#")
                 else:
-                    print("Garbage")
+                    pass
         self.file.close()
 
     def save(self):
